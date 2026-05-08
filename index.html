@@ -3,146 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaiceControl - Análisis Microeconómico</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Cache busting to force light theme -->
-    <link rel="stylesheet" href="style.css?v=8.2.1">
+    <title>Saice Tarijeño - Análisis Microeconómico Completo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <script>
-        // Force update service worker
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js?v=8.2.1').then(reg => {
-                reg.update();
-            });
+            navigator.serviceWorker.register('./sw.js');
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="app-container">
+        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="brand">
-                <div class="logo"><i class="fa-solid fa-chart-line"></i></div>
-                <h2>SaiceControl</h2>
-                <p>Análisis Premium</p>
+                <div class="logo">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h2>Saice Tarijeño</h2>
+                <p>Análisis Microeconómico</p>
             </div>
             <nav class="nav-menu">
-                <button class="nav-item active" data-target="tab-perfecta"><i class="fa-solid fa-scale-balanced"></i><span>Comp. Perfecta</span></button>
-                <button class="nav-item" data-target="tab-imperfecta"><i class="fa-solid fa-chess-knight"></i><span>Monopolio</span></button>
-                <button class="nav-item" data-target="tab-elasticidad"><i class="fa-solid fa-compress-alt"></i><span>Elasticidad</span></button>
-                <button class="nav-item" data-target="tab-equilibrio"><i class="fa-solid fa-bullseye"></i><span>Equilibrio</span></button>
-                <button class="nav-item" data-target="tab-indiferencia"><i class="fa-solid fa-code-compare"></i><span>Indiferencia</span></button>
-                <button class="nav-item" data-target="tab-capacidad"><i class="fa-solid fa-industry"></i><span>Producción</span></button>
-                <button class="nav-item" data-target="tab-guia"><i class="fa-solid fa-graduation-cap"></i><span>Defensa</span></button>
+                <button class="nav-item active" data-target="tab-perfecta">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>Competencia Perfecta</span>
+                </button>
+                <button class="nav-item" data-target="tab-imperfecta">
+                    <i class="fa-solid fa-chess-knight"></i>
+                    <span>Competencia Imperfecta</span>
+                </button>
+                <button class="nav-item" data-target="tab-elasticidad">
+                    <i class="fa-solid fa-compress-alt"></i>
+                    <span>Elasticidad Demanda</span>
+                </button>
+                <button class="nav-item" data-target="tab-equilibrio">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Punto de Equilibrio</span>
+                </button>
+                <button class="nav-item" data-target="tab-indiferencia">
+                    <i class="fa-solid fa-code-compare"></i>
+                    <span>Punto de Indiferencia</span>
+                </button>
+                <button class="nav-item" data-target="tab-capacidad">
+                    <i class="fa-solid fa-industry"></i>
+                    <span>Producción</span>
+                </button>
+                <button class="nav-item" data-target="tab-guia">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Guía de Defensa</span>
+                </button>
             </nav>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
             <header class="topbar">
-                <h1>Panel de Control</h1>
-                <div class="topbar-actions no-print">
-                    <button class="btn btn-secondary" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-                    <button class="btn btn-primary"><i class="fa-solid fa-file-word"></i> Word</button>
+                <h1>Sistema de Resolución Microeconómica</h1>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 10px;" class="no-print">
+                    <button id="btn-print-pdf" class="btn" style="background: white; color: #1f2937; border: 1px solid #d1d5db; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> Imprimir a PDF</button>
+                    <button id="btn-export-word" class="btn" style="background: #ef4444; color: white; border: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"><i class="fa-solid fa-file-word"></i> Exportar a Word</button>
                 </div>
             </header>
 
             <div class="content-wrapper">
-                <!-- TAB 1: Competencia Perfecta -->
+                
+                <!-- TAB 1: Competencia Perfecta (11 Pasos) -->
                 <section id="tab-perfecta" class="tab-section active">
+                    <div class="section-header">
+                        <h2>Modelo de Competencia Perfecta en Equilibrio</h2>
+                        <p>Resolución completa paso a paso con los 11 puntos requeridos.</p>
+                    </div>
+
+                    <!-- Datos de Entrada (Estilo Papel) -->
                     <div class="paper-container">
-                        <h3 class="paper-title">EJERCICIO 1. Saice Tarijeño (Editable)</h3>
+                        <h3 class="paper-title" contenteditable="true">EJERCICIO 1. Saice Tarijeño (Editable)</h3>
                         <div class="table-responsive">
-                            <table class="paper-table">
-                                <thead><tr><th>Precio</th><th>Demanda</th><th>Oferta</th><th class="no-print">Acción</th></tr></thead>
+                            <table class="paper-table" id="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Precio</th>
+                                        <th>Demanda</th>
+                                        <th>Oferta</th>
+                                        <th class="no-print">Acción</th>
+                                    </tr>
+                                </thead>
                                 <tbody id="table-body">
-                                    <tr><td><input type="number" class="t-price" value="12"></td><td><input type="number" class="t-dem" value="12000"></td><td><input type="number" class="t-sup" value="10000"></td><td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td></tr>
-                                    <tr><td><input type="number" class="t-price" value="12.5"></td><td><input type="number" class="t-dem" value="11680"></td><td><input type="number" class="t-sup" value="11500"></td><td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td></tr>
-                                    <tr><td><input type="number" class="t-price" value="13"></td><td><input type="number" class="t-dem" value="11500"></td><td><input type="number" class="t-sup" value="11750"></td><td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td></tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price" value="12" step="0.1"></td>
+                                        <td><input type="number" class="t-dem" value="12000"></td>
+                                        <td><input type="number" class="t-sup" value="10000"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price" value="12.5" step="0.1"></td>
+                                        <td><input type="number" class="t-dem" value="11680"></td>
+                                        <td><input type="number" class="t-sup" value="11500"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price" value="13" step="0.1"></td>
+                                        <td><input type="number" class="t-dem" value="11500"></td>
+                                        <td><input type="number" class="t-sup" value="11750"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price" value="13.2" step="0.1"></td>
+                                        <td><input type="number" class="t-dem" value="11250"></td>
+                                        <td><input type="number" class="t-sup" value="11900"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price" value="13.4" step="0.1"></td>
+                                        <td><input type="number" class="t-dem" value="11000"></td>
+                                        <td><input type="number" class="t-sup" value="12000"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="no-print" style="margin-bottom:1rem; display:flex; gap:10px;">
+                        <div class="text-center no-print" style="margin-bottom: 1rem; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
                             <button id="add-row" class="btn btn-secondary btn-sm" style="color:#000; border-color:#000;"><i class="fa-solid fa-plus"></i> Añadir Fila</button>
+                            <button id="btn-paste-perfecta" class="btn btn-secondary btn-sm" style="color:#10b981; border-color:#10b981;"><i class="fa-solid fa-clipboard"></i> Pegar Excel/Captura</button>
                         </div>
                         <div class="paper-text">
-                            Costo Variable: <input type="number" id="inp-porcentaje-cv" value="35" class="inline-input"> 
-                            <select id="inp-cv-type" class="inline-select"><option value="percent">%</option><option value="absolute">bs</option></select>
-                            | Costo Fijo: <input type="number" id="inp-cf" value="7000" class="inline-input">bs
+                            Considerar un costo unitario de <input type="number" id="inp-porcentaje-cv" value="35" class="inline-input">
+                            <select id="inp-cv-type" class="inline-select">
+                                <option value="percent">% del precio inicio</option>
+                                <option value="absolute">bs</option>
+                            </select>. Y costo fijo 
+                            <input type="number" id="inp-cf" value="7000" class="inline-input">bs.
                         </div>
                     </div>
-                    <button id="btn-resolver" class="btn btn-primary btn-lg" style="width:100%;"><i class="fa-solid fa-wand-magic-sparkles"></i> Resolver</button>
 
-                    <div id="resolution-container" style="display:none; margin-top:2rem;">
-                        <div class="card step-card">
-                            <h3>Resultados del Análisis</h3>
+                    <div class="actions mt-4 text-center">
+                        <button id="btn-resolver" class="btn btn-primary btn-lg" style="width: 100%; max-width: 400px; margin: 0 auto;"><i class="fa-solid fa-wand-magic-sparkles"></i> Generar Resolución Completa</button>
+                    </div>
+
+                    <!-- Contenedor de Resolución (Oculto al inicio) -->
+                    <div id="resolution-container" style="display: none;" class="mt-4">
+                        <div class="card step-card" id="step-1">
+                            <h3>1. Ecuación Demanda</h3>
+                            <div class="table-container">
+                                <table class="calc-table" id="table-demanda">
+                                    <thead><tr><th>Precio (X)</th><th>Demanda (Y)</th><th>DX</th><th>DY</th><th>DX*DY</th><th>DX²</th></tr></thead>
+                                    <tbody></tbody><tfoot></tfoot>
+                                </table>
+                            </div>
                             <div class="math-formulas" id="math-demanda"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-2">
+                            <h3>2. Ecuación Oferta</h3>
+                            <div class="table-container">
+                                <table class="calc-table" id="table-oferta">
+                                    <thead><tr><th>Precio (X)</th><th>Oferta (Y)</th><th>DX</th><th>DY</th><th>DX*DY</th><th>DX²</th></tr></thead>
+                                    <tbody></tbody><tfoot></tfoot>
+                                </table>
+                            </div>
+                            <div class="math-formulas" id="math-oferta"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-3">
+                            <h3>3. Precio y Cantidad de Equilibrio</h3>
                             <div class="math-formulas" id="math-equilibrio"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-4">
+                            <h3>4. Función Demanda</h3>
+                            <div class="math-formulas" id="math-funcion-demanda"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-5">
+                            <h3>5. Función Ingresos</h3>
+                            <div class="math-formulas" id="math-ingresos"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-6">
+                            <h3>6. Función Costos</h3>
+                            <div class="math-formulas" id="math-costos"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-7">
+                            <h3>7. Función Ingreso Marginal</h3>
+                            <div class="math-formulas" id="math-im"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-8">
+                            <h3>8. Función Costo Marginal</h3>
+                            <div class="math-formulas" id="math-cm"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-9">
+                            <h3>9. Aplicar fórmula IM = CM</h3>
+                            <div class="math-formulas" id="math-im-cm"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-10">
+                            <h3>10. Cantidad y Utilidad Óptima</h3>
                             <div class="math-formulas" id="math-utilidad"></div>
-                            <div class="chart-container">
-                                <div style="position:absolute; top:10px; left:10px; font-weight:800; color:#000;">INGRESOS (Bs)</div>
-                                <div style="position:absolute; bottom:10px; right:10px; font-weight:800; color:#000;">CANTIDAD (Q)</div>
+                        </div>
+
+                        <div class="card step-card" id="step-11">
+                            <h3>11. Gráfico e Interpretación de la Utilidad</h3>
+                            <div class="chart-wrapper" style="position: relative; width: 100%; height: 500px; background: white; margin: 20px 0;">
+                                <div style="position: absolute; top: 10px; left: 10px; font-weight: bold; font-size: 1.1rem; color: #000;">INGRESOS</div>
+                                <div style="position: absolute; bottom: 10px; right: 10px; font-weight: bold; font-size: 1.1rem; color: #000;">CANTIDAD</div>
                                 <canvas id="chart-utilidad-custom"></canvas>
                             </div>
+                            <div class="interpretation-box mt-4" id="box-interpretacion"></div>
                         </div>
                     </div>
                 </section>
 
-                <!-- TAB 2: Monopolio -->
+                <!-- TAB 2: Competencia Imperfecta -->
                 <section id="tab-imperfecta" class="tab-section">
+                    <div class="section-header">
+                        <h2>Modelo de Competencia Imperfecta (Monopolio)</h2>
+                        <p>Resolución completa de 10 pasos para determinar el equilibrio monopólico y costo social.</p>
+                    </div>
+
+                    <!-- Datos de Entrada Imperfecta -->
                     <div class="paper-container">
-                        <h3 class="paper-title">Análisis de Monopolio</h3>
-                        <table class="paper-table">
-                            <thead><tr><th>Precio</th><th>Demanda</th><th class="no-print">Acción</th></tr></thead>
-                            <tbody id="table-body-imp">
-                                <tr><td><input type="number" class="t-price-imp" value="10"></td><td><input type="number" class="t-dem-imp" value="20000"></td><td class="no-print"><button class="btn-icon delete-row-imp" style="color:red;"><i class="fa-solid fa-trash"></i></button></td></tr>
-                                <tr><td><input type="number" class="t-price-imp" value="12"></td><td><input type="number" class="t-dem-imp" value="18000"></td><td class="no-print"><button class="btn-icon delete-row-imp" style="color:red;"><i class="fa-solid fa-trash"></i></button></td></tr>
-                            </tbody>
-                        </table>
-                        <button id="add-row-imp" class="btn btn-secondary btn-sm" style="margin-top:10px;"><i class="fa-solid fa-plus"></i> Fila</button>
-                        <div class="paper-text" style="margin-top:15px;">
-                            CV: <input type="number" id="inp-cv-imp" value="3" class="inline-input"> 
-                            CF: <input type="number" id="inp-cf-imp" value="7000" class="inline-input">
-                            <input type="hidden" id="inp-cv-imp-type" value="absolute">
+                        <h3 class="paper-title" contenteditable="true">EJERCICIO 2. Modelo de competencia imperfecta.</h3>
+                        <div class="paper-text" contenteditable="true" style="margin-bottom: 1rem; line-height: 1.6;">
+                            La empresa opera como un monopolio en su sector. Se han registrado diferentes niveles de precios y sus respectivas demandas estimadas en el mercado. Determine la regresión de la demanda, funciones de ingresos, costos marginales y el costo social resultante.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="paper-table" id="data-table-imp">
+                                <thead>
+                                    <tr>
+                                        <th>Precio</th>
+                                        <th>Demanda</th>
+                                        <th class="no-print">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body-imp">
+                                    <tr>
+                                        <td><input type="number" class="t-price-imp" value="10" step="0.1"></td>
+                                        <td><input type="number" class="t-dem-imp" value="20000"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row-imp" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price-imp" value="11" step="0.1"></td>
+                                        <td><input type="number" class="t-dem-imp" value="19500"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row-imp" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price-imp" value="12" step="0.1"></td>
+                                        <td><input type="number" class="t-dem-imp" value="19000"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row-imp" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-price-imp" value="13" step="0.1"></td>
+                                        <td><input type="number" class="t-dem-imp" value="18500"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row-imp" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center no-print" style="margin-bottom: 1rem; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                            <button id="add-row-imp" class="btn btn-secondary btn-sm" style="color:#000; border-color:#000;"><i class="fa-solid fa-plus"></i> Añadir Fila</button>
+                            <button id="btn-paste-imperfecta" class="btn btn-secondary btn-sm" style="color:#10b981; border-color:#10b981;"><i class="fa-solid fa-clipboard"></i> Pegar Excel/Captura</button>
+                            <button id="copy-to-imp" class="btn btn-secondary btn-sm" style="color:#1f4e79; border-color:#1f4e79;"><i class="fa-solid fa-copy"></i> Copiar de Perfecta</button>
+                        </div>
+                        <div class="paper-text" contenteditable="true">
+                            El costo unitario es <input type="number" id="inp-cv-imp" value="3" class="inline-input" step="0.1">
+                            <select id="inp-cv-imp-type" class="inline-select">
+                                <option value="absolute">bs</option>
+                                <option value="percent">% del precio inicio</option>
+                            </select>, y el fijo es 
+                            <input type="number" id="inp-cf-imp" value="7000" class="inline-input">bs.
                         </div>
                     </div>
-                    <button id="btn-resolver-imp" class="btn btn-primary btn-lg" style="width:100%;"><i class="fa-solid fa-calculator"></i> Calcular Monopolio</button>
-                    <div id="resolution-container-imp" style="display:none; margin-top:2rem;">
-                        <div class="card step-card">
+
+                    <div class="actions mt-4 text-center">
+                        <button id="btn-resolver-imp" class="btn btn-primary btn-lg" style="width: 100%; max-width: 400px; margin: 0 auto;"><i class="fa-solid fa-calculator"></i> Ejecutar Modelo Imperfecto</button>
+                    </div>
+
+                    <div id="resolution-container-imp" style="display: none;" class="mt-4">
+                        
+                        <div class="card step-card" id="step-0-imp">
+                            <h3>Regresión de Demanda</h3>
+                            <div class="table-container">
+                                <table class="calc-table" id="table-demanda-imp">
+                                    <thead><tr><th>Precio (X)</th><th>Demanda (Y)</th><th>DX</th><th>DY</th><th>DX*DY</th><th>DX²</th></tr></thead>
+                                    <tbody></tbody><tfoot></tfoot>
+                                </table>
+                            </div>
                             <div class="math-formulas" id="math-reg-imp"></div>
-                            <div class="math-formulas" id="math-9-imp"></div>
-                            <div class="chart-container"><canvas id="chart-imperfecta-custom"></canvas></div>
                         </div>
+
+                        <div class="card step-card" id="step-1-imp">
+                            <h3>1. Ecuación y función demanda</h3>
+                            <div class="math-formulas" id="math-1-imp"></div>
+                        </div>
+                        
+                        <div class="card step-card" id="step-2-imp">
+                            <h3>2. Función ingresos</h3>
+                            <div class="math-formulas" id="math-2-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-3-imp">
+                            <h3>3. Función costos</h3>
+                            <div class="math-formulas" id="math-3-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-4-imp">
+                            <h3>4. Función ingreso marginal IM</h3>
+                            <div class="math-formulas" id="math-4-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-5-imp">
+                            <h3>5. Función costo marginal CM</h3>
+                            <div class="math-formulas" id="math-5-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-6-imp">
+                            <h3>6. Aplicar la fórmula IM=CM</h3>
+                            <div class="math-formulas" id="math-6-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-7-imp">
+                            <h3>7. Aplicar la fórmula P=CM</h3>
+                            <div class="math-formulas" id="math-7-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-8-imp">
+                            <h3>8. Aplicar integrales indefinidas para el costo social</h3>
+                            <div class="math-formulas" id="math-8-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-9-imp">
+                            <h3>9. Aplicar integrales definidas</h3>
+                            <div class="math-formulas" id="math-9-imp"></div>
+                        </div>
+
+                        <div class="card step-card" id="step-10-imp">
+                            <h3>10. Gráfico P, CM, IM (área a calcular)</h3>
+                            <div style="background: white; border-radius: 8px; padding: 20px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; text-align: center; font-size: 1.5rem; font-weight: bold;">
+                                    <tr>
+                                        <td style="border: 2px solid #000; padding: 15px; color: #1f4e79;" id="eq-p-imp"></td>
+                                        <td style="border: 2px solid #000; padding: 15px; color: #c00000;" id="eq-cm-imp"></td>
+                                        <td style="border: 2px solid #000; padding: 15px; color: #70ad47;" id="eq-im-imp"></td>
+                                    </tr>
+                                </table>
+                                <canvas id="chart-imperfecta-custom" width="900" height="500" style="border: 1px solid #ccc; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
 
                 <!-- TAB 3: Elasticidad -->
                 <section id="tab-elasticidad" class="tab-section">
-                    <div class="paper-container">
-                        <h3 class="paper-title">Elasticidad</h3>
-                        <table class="paper-table">
-                            <thead><tr><th>Precio</th><th>Demanda</th><th class="no-print">Acción</th></tr></thead>
-                            <tbody id="table-body-elas">
-                                <tr><td><input type="number" class="t-elas-p" value="20"></td><td><input type="number" class="t-elas-q" value="100"></td><td class="no-print"><button class="btn-icon delete-row-elas" style="color:red;"><i class="fa-solid fa-trash"></i></button></td></tr>
-                                <tr><td><input type="number" class="t-elas-p" value="25"></td><td><input type="number" class="t-elas-q" value="80"></td><td class="no-print"><button class="btn-icon delete-row-elas" style="color:red;"><i class="fa-solid fa-trash"></i></button></td></tr>
-                            </tbody>
-                        </table>
-                        <button id="add-row-elas" class="btn btn-secondary btn-sm" style="margin-top:10px;"><i class="fa-solid fa-plus"></i> Fila</button>
+                    <div class="section-header">
+                        <h2>Elasticidad Precio de la Demanda</h2>
+                        <p>Sensibilidad de la cantidad demandada ante cambios de precio.</p>
                     </div>
-                    <button id="calc-elasticidad" class="btn btn-primary btn-lg" style="width:100%;"><i class="fa-solid fa-calculator"></i> Calcular</button>
-                    <div id="res-elasticidad" style="display:none; margin-top:1rem;" class="math-formulas" id="math-elasticidad"></div>
+                    
+                    <div class="paper-container">
+                        <h3 class="paper-title" contenteditable="true">EJERCICIO 3. Elasticidad</h3>
+                        <div class="table-responsive">
+                            <table class="paper-table">
+                                <thead>
+                                    <tr>
+                                        <th>Precio (P)</th>
+                                        <th>Demanda (Q)</th>
+                                        <th class="no-print">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body-elas">
+                                    <tr>
+                                        <td><input type="number" class="t-elas-p" value="20" step="0.1"></td>
+                                        <td><input type="number" class="t-elas-q" value="100"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row-elas" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="t-elas-p" value="25" step="0.1"></td>
+                                        <td><input type="number" class="t-elas-q" value="80"></td>
+                                        <td class="no-print"><button class="btn-icon delete-row-elas" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="no-print" style="margin-top: 10px; display:flex; gap:10px;">
+                            <button id="add-row-elas" class="btn btn-secondary btn-sm" style="color:#10b981; border-color:#10b981;"><i class="fa-solid fa-plus"></i> Agregar Fila</button>
+                            <button id="copy-to-elas" class="btn btn-secondary btn-sm" style="color:#1f4e79; border-color:#1f4e79;"><i class="fa-solid fa-copy"></i> Importar de Perfecta</button>
+                        </div>
+                    </div>
+
+                    <div class="actions mt-4 text-center">
+                        <button id="calc-elasticidad" class="btn btn-primary btn-lg" style="width: 100%; max-width: 400px; margin: 0 auto;"><i class="fa-solid fa-calculator"></i> Calcular Elasticidad</button>
+                    </div>
+
+                    <div class="card mt-4" id="res-elasticidad" style="display: none;">
+                        <h3>Resultados</h3>
+                        <div class="math-formulas" id="math-elasticidad"></div>
+                        <div class="interpretation-box mt-4" id="box-elas-inter"></div>
+                    </div>
                 </section>
 
-                <!-- Resto de secciones (Ocultas para simplificar carga inicial) -->
-                <section id="tab-equilibrio" class="tab-section"></section>
-                <section id="tab-indiferencia" class="tab-section"></section>
-                <section id="tab-capacidad" class="tab-section"></section>
-                <section id="tab-guia" class="tab-section"></section>
+                <!-- TAB 4: Punto de Equilibrio -->
+                <section id="tab-equilibrio" class="tab-section">
+                    <div class="section-header">
+                        <h2>Punto de Equilibrio Operativo</h2>
+                        <p>Cantidad necesaria para no tener pérdidas ni ganancias.</p>
+                    </div>
+
+                    <div class="paper-container">
+                        <div id="enunciado-equilibrio" contenteditable="true" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #fff; min-height: 80px;">
+                            En el negocio de elaboración de Saice, los costos fijos mensuales son de Bs. 9000, el costo variable por plato es de Bs. 4.5 y el plato es vendido a Bs. 15. Encuentre: a) El punto de equilibrio (en platos). b) El volumen de equilibrio (en bolivianos). c) La utilidad para la demanda real de 3770 unidades y una proyección de 5000 unidades.
+                        </div>
+
+                        <div class="no-print" style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 1.2rem; border-radius: 8px; margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="margin: 0; color: #334155; font-size: 1rem;"><i class="fa-solid fa-keyboard"></i> Panel de Datos Numéricos</h4>
+                                <button id="btn-sync-equilibrio" class="btn btn-secondary btn-sm" style="color:#3b82f6; border-color:#3b82f6;"><i class="fa-solid fa-wand-magic-sparkles"></i> Sincronizar desde Texto</button>
+                            </div>
+                            <div class="grid-inputs" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem;">
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Costo Fijo (Bs)</label>
+                                    <input type="number" id="pe-cf" value="9000" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Costo Var. (Bs)</label>
+                                    <input type="number" id="pe-cv" value="4.5" step="0.1" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Precio (Bs)</label>
+                                    <input type="number" id="pe-p" value="15" step="0.1" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Utilidad en (u)</label>
+                                    <input type="number" id="pe-q1" value="3770" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Utilidad en (u)</label>
+                                    <input type="number" id="pe-q2" value="5000" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions mt-4 text-center">
+                        <button id="calc-equilibrio" class="btn btn-primary btn-lg" style="width: 100%; max-width: 400px; margin: 0 auto;"><i class="fa-solid fa-calculator"></i> Calcular Equilibrio</button>
+                    </div>
+
+                    <div class="card mt-4" id="res-equilibrio" style="display: none;">
+                        <h3>Resolución</h3>
+                        <div class="math-formulas" id="math-equilibrio-res"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: Punto de Indiferencia -->
+                <section id="tab-indiferencia" class="tab-section">
+                    <div class="section-header">
+                        <h2>Punto de Indiferencia</h2>
+                        <p>Comparación de dos alternativas de producción (Máquinas/Procesos).</p>
+                    </div>
+
+                    <div class="paper-container">
+                        <h3 class="paper-title" contenteditable="true">EJERCICIO 2. Punto de Indiferencia</h3>
+                        <div class="table-responsive">
+                            <table class="paper-table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th>Costos</th>
+                                        <th>Máquina A</th>
+                                        <th>Máquina B</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Costos fijos (CF) Bs.</td>
+                                        <td><input type="number" id="ind-cfa" value="1200"></td>
+                                        <td><input type="number" id="ind-cfb" value="2000"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Costo var. unitario (Cv) Bs.</td>
+                                        <td><input type="number" id="ind-cva" value="0.75" step="0.01"></td>
+                                        <td><input type="number" id="ind-cvb" value="0.50" step="0.01"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center no-print" style="margin-top:2rem;">
+                            <button id="copy-to-ind" class="btn btn-secondary btn-sm" style="color:#1f4e79; border-color:#1f4e79;"><i class="fa-solid fa-copy"></i> Cargar Datos Base (Máquina A)</button>
+                        </div>
+                    </div>
+
+                    <div class="actions mt-4 text-center">
+                        <button id="calc-indiferencia" class="btn btn-primary btn-lg" style="width: 100%; max-width: 400px; margin: 0 auto;"><i class="fa-solid fa-calculator"></i> Calcular Indiferencia</button>
+                    </div>
+
+                    <div class="card mt-4" id="res-indiferencia" style="display: none;">
+                        <h3>Resolución</h3>
+                        <div class="math-formulas" id="math-indiferencia-res"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: Capacidad de Producción -->
+                <section id="tab-capacidad" class="tab-section">
+                    <div class="section-header">
+                        <h2>Producción</h2>
+                        <p>Análisis de utilidades en diferentes niveles de capacidad operativa.</p>
+                    </div>
+
+                    <div class="paper-container">
+                        <h3 class="paper-title" contenteditable="true">EJERCICIO 3. Capacidad de Producción</h3>
+                        
+                        <!-- ENUNCIADO PARA EXPORTAR -->
+                        <div id="enunciado-capacidad" contenteditable="true" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #fff; min-height: 80px;">
+                            Los fabricantes de bicicletas “ALTAS” actualmente están operando al 75% de su capacidad. Producción: 9150 unidades por año. Precio Unitario Bs. 110. Costo variable unitario Bs. 60. Costo fijo anual Bs. 40000. Un mayorista propone vender a capacidad total, incrementando el CV en 4% por aditamentos. El precio para la producción extra será del 89%. Para superar el 80% de capacidad, los costos fijos suben un 25% y los variables un 6% adicional.
+                        </div>
+
+                        <!-- PANEL DE DATOS (NO SE EXPORTA) -->
+                        <div class="no-print" style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 1rem; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="margin: 0; color: #334155; font-size: 1rem;"><i class="fa-solid fa-keyboard"></i> Panel de Datos Numéricos</h4>
+                                <button id="btn-sync-capacidad" class="btn btn-secondary btn-sm" style="color:#3b82f6; border-color:#3b82f6;"><i class="fa-solid fa-wand-magic-sparkles"></i> Sincronizar desde Texto</button>
+                            </div>
+                            <div class="grid-inputs" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.8rem;">
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Capacidad Base (%)</label>
+                                    <input type="number" id="cap-base-pct" value="75" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Producción (u)</label>
+                                    <input type="number" id="cap-base-q" value="9150" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Precio Unit. (Bs)</label>
+                                    <input type="number" id="cap-base-p" value="110" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Costo Var. (Bs)</label>
+                                    <input type="number" id="cap-base-cv" value="60" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Costo Fijo (Bs)</label>
+                                    <input type="number" id="cap-base-cf" value="40000" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">↑Cv Propuesta (%)</label>
+                                    <input type="number" id="cap-inc-cv1" value="4" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Límite Int. (%)</label>
+                                    <input type="number" id="cap-limit-pct" value="80" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">↑CF Límite (%)</label>
+                                    <input type="number" id="cap-inc-cf" value="25" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">↑Cv Límite (%)</label>
+                                    <input type="number" id="cap-inc-cv2" value="6" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">Cap. Extra (%)</label>
+                                    <input type="number" id="cap-extra-pct" value="25" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                                <div class="input-group-sm">
+                                    <label style="font-size: 0.8em; display:block; margin-bottom:2px; color: #475569; font-weight: 600;">P. Extra (%)</label>
+                                    <input type="number" id="cap-p-desc" value="89" class="form-control-sm" style="width:100%; border: 2px solid #3b82f6; padding: 6px; border-radius: 6px; background: white; color: black; font-weight: bold;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions mt-4 text-center">
+                        <button id="calc-capacidad" class="btn btn-primary btn-lg" style="width: 100%; max-width: 400px; margin: 0 auto;"><i class="fa-solid fa-calculator"></i> Calcular Utilidades</button>
+                    </div>
+
+                    <div class="card mt-4" id="res-capacidad" style="display: none;">
+                        <h3>Resolución</h3>
+                        <div class="math-formulas" id="math-capacidad-res"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 7: Guía de Defensa -->
+                <section id="tab-guia" class="tab-section">
+                    <div class="section-header">
+                        <h2>Guión de Presentación Final (5:00 Minutos Total)</h2>
+                        <p>Estructura oficial para tu video de defensa según los requerimientos del docente.</p>
+                    </div>
+
+                    <div class="paper-container" style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+                        <!-- PARTE 1 -->
+                        <div class="script-block" style="border-left: 5px solid #64748b; padding-left: 20px; margin-bottom: 30px;">
+                            <h4 style="color:#64748b;"><i class="fa-solid fa-clock"></i> PARTE 1 (15 seg) | Información General</h4>
+                            <p style="font-style: italic; color: #555;">"Buen día, somos el grupo conformado por <b>[Tus Nombres]</b>. Presentamos nuestro proyecto final para la materia de Microeconomía del docente <b>[Nombre Docente]</b>, enfocado en el emprendimiento <b>Saice Tarijeño</b>."</p>
+                        </div>
+
+                        <!-- PARTE 2 -->
+                        <div class="script-block" style="border-left: 5px solid #3b82f6; padding-left: 20px; margin-bottom: 30px;">
+                            <h4 style="color:#3b82f6;"><i class="fa-solid fa-clock"></i> PARTE 2 (30 seg) | Nuestra Visión de Negocio</h4>
+                            <p style="font-style: italic; color: #555;">"Nuestra idea no es solo vender comida, es profesionalizar el <b>Saice Tarijeño</b>. Queremos que cada plato servido sea el resultado de un proceso optimizado, donde la tradición se une con la eficiencia. Nuestra visión es posicionar nuestra marca como la número uno en Tarija, demostrando que un negocio tradicional puede ser una máquina de generar rentabilidad si se gestiona con inteligencia."</p>
+                        </div>
+
+                        <!-- PARTE 3 -->
+                        <div class="script-block" style="border-left: 5px solid #0ea5e9; padding-left: 20px; margin-bottom: 30px;">
+                            <h4 style="color:#0ea5e9;"><i class="fa-solid fa-clock"></i> PARTE 3 (15 seg) | ¿Para qué hicimos todo esto?</h4>
+                            <p style="font-style: italic; color: #555;">"El objetivo de todo este esfuerzo matemático es eliminar las dudas. No estamos adivinando; estamos usando la microeconomía para saber exactamente cuánto producir, a qué precio vender y cómo ganarle a la competencia sin fallar en el intento."</p>
+                        </div>
+
+                        <!-- PARTE 4 (El Corazón) -->
+                        <div class="script-block" style="border-left: 5px solid var(--primary); padding-left: 20px; margin-bottom: 30px; background: rgba(239,68,68,0.02); padding: 20px; border-radius: 0 12px 12px 0;">
+                            <h4 style="color:var(--primary);"><i class="fa-solid fa-clock"></i> PARTE 4 (3.5 min) | El Motor del Negocio (Análisis)</h4>
+                            <div style="font-style: italic; color: #444; line-height: 1.6;">
+                                <p style="margin-bottom: 15px;">
+                                    <b>1. Competencia Perfecta (1 min):</b><br>
+                                    "Salimos a la calle, encuestamos y procesamos todo con <b>Mínimos Cuadrados</b>. Así descubrimos nuestra verdadera curva de Demanda. Hallamos el equilibrio, pero fuimos más allá: encontramos nuestro <b>Punto Óptimo</b>. Esto nos dice exactamente dónde paramos de gastar y empezamos a maximizar utilidades."
+                                </p>
+                                <p style="margin-bottom: 15px;">
+                                    <b>2. Monopolio y Eficiencia (1 min):</b><br>
+                                    "Analizamos qué pasaría si domináramos el mercado. Usando <b>Integrales</b>, medimos el Costo Social. Esto nos sirve para entender que incluso siendo los únicos, debemos cuidar al consumidor para que el negocio sea sostenible a largo plazo."
+                                </p>
+                                <p style="margin-bottom: 15px;">
+                                    <b>3. Elasticidad (45 seg):</b><br>
+                                    "Aquí viene lo bueno: nuestra demanda es <b>inelástica</b>. El tarijeño ama su saice y no lo deja por unos pesos de diferencia. Esto nos da un 'colchón' de seguridad increíble para nuestra rentabilidad."
+                                </p>
+                                <p>
+                                    <b>4. Producción Real (45 seg):</b><br>
+                                    "Sabemos que con <b>857 platos</b> ya estamos a salvo. Y con nuestro modelo incremental, ya tenemos el plan listo para expandirnos al 100% de capacidad cuando el negocio empiece a crecer."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- PARTE 5 -->
+                        <div class="script-block" style="border-left: 5px solid #1e293b; padding-left: 20px; margin-bottom: 30px; padding-top: 10px;">
+                            <h4 style="color:#1e293b;"><i class="fa-solid fa-clock"></i> PARTE 5 (45-60 seg) | Conclusión y Llamado a la Acción</h4>
+                            <p style="font-style: italic; color: #334155; font-size: 1.05rem; line-height: 1.7;">
+                                "Para cerrar, quiero que vean que este proyecto no son solo números en una pantalla. Todo este análisis lo hicimos para demostrar que en Tarija podemos emprender con seguridad, minimizando riesgos y asegurando ganancias reales. <br><br>
+                                Hemos probado matemáticamente que el <b>Saice Tarijeño es una oportunidad de oro</b>. Si alguno de ustedes ha pensado en emprender, aquí tiene la prueba de que con ciencia y pasión se puede llegar lejos. Los invito a dejar de lado la improvisación y unirse a este modelo de negocio inteligente. <br><br>
+                                Hagamos que nuestra cultura sea nuestro mayor orgullo y también nuestra mayor fuente de éxito. ¡El Saice está listo para conquistar el mercado! Muchas gracias."
+                            </p>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
-    <script src="script.js?v=8.2.1"></script>
+    <script src="script.js?v=7"></script>
 </body>
 </html>
