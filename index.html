@@ -27,29 +27,29 @@
                 <div class="logo">
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
-                <h2>Saice Tarijeño</h2>
+                <h2>SaiceControl</h2>
                 <p>Análisis Microeconómico</p>
             </div>
             <nav class="nav-menu">
                 <button class="nav-item active" data-target="tab-perfecta">
                     <i class="fa-solid fa-scale-balanced"></i>
-                    <span>Competencia Perfecta</span>
+                    <span>Comp. Perfecta</span>
                 </button>
                 <button class="nav-item" data-target="tab-imperfecta">
                     <i class="fa-solid fa-chess-knight"></i>
-                    <span>Competencia Imperfecta</span>
+                    <span>Monopolio</span>
                 </button>
                 <button class="nav-item" data-target="tab-elasticidad">
                     <i class="fa-solid fa-compress-alt"></i>
-                    <span>Elasticidad Demanda</span>
+                    <span>Elasticidad</span>
                 </button>
                 <button class="nav-item" data-target="tab-equilibrio">
                     <i class="fa-solid fa-bullseye"></i>
-                    <span>Punto de Equilibrio</span>
+                    <span>Equilibrio</span>
                 </button>
                 <button class="nav-item" data-target="tab-indiferencia">
                     <i class="fa-solid fa-code-compare"></i>
-                    <span>Punto de Indiferencia</span>
+                    <span>Indiferencia</span>
                 </button>
                 <button class="nav-item" data-target="tab-capacidad">
                     <i class="fa-solid fa-industry"></i>
@@ -57,7 +57,7 @@
                 </button>
                 <button class="nav-item" data-target="tab-guia">
                     <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Guía de Defensa</span>
+                    <span>Defensa</span>
                 </button>
             </nav>
         </aside>
@@ -212,12 +212,12 @@
 
                         <div class="card step-card" id="step-11">
                             <h3>11. Gráfico e Interpretación de la Utilidad</h3>
-                            <div class="chart-wrapper" style="position: relative; width: 100%; height: 500px; background: white; margin: 20px 0;">
-                                <div style="position: absolute; top: 10px; left: 10px; font-weight: bold; font-size: 1.1rem; color: #000;">INGRESOS</div>
-                                <div style="position: absolute; bottom: 10px; right: 10px; font-weight: bold; font-size: 1.1rem; color: #000;">CANTIDAD</div>
+                            <div class="chart-container" style="position: relative; border: 2px solid #000; background: #fff;">
+                                <div style="position: absolute; top: 10px; left: 10px; font-weight: 800; font-size: 1rem; color: #000; z-index: 10;">INGRESOS (Bs)</div>
+                                <div style="position: absolute; bottom: 10px; right: 10px; font-weight: 800; font-size: 1rem; color: #000; z-index: 10;">CANTIDAD (Q)</div>
                                 <canvas id="chart-utilidad-custom"></canvas>
                             </div>
-                            <div class="interpretation-box mt-4" id="box-interpretacion"></div>
+                            <div class="interpretation-box mt-4" id="box-interpretacion" style="border-left: 5px solid var(--accent); padding: 1.5rem; background: #f0fdf4; font-style: italic;"></div>
                         </div>
                     </div>
                 </section>

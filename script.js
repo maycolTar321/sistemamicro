@@ -1,16 +1,9 @@
 /**
- * SaiceControl Engine v8.0 - Antigravity Edition
- * Developed for Microeconomics Analysis
+ * SaiceControl Engine v8.1 - Professional Light Edition
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("🚀 SaiceControl Engine v8.0 - Antigravity Edition Initialized");
-
-    // --- STATE MANAGEMENT ---
-    const state = {
-        activeTab: 'tab-perfecta',
-        data: {}
-    };
+    console.log("🚀 SaiceControl Engine v8.1 - Professional Light Initialized");
 
     // --- NAVIGATION ---
     const navItems = document.querySelectorAll('.nav-item');
@@ -18,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function switchTab(targetId) {
         if (!targetId) return;
-        
         tabSections.forEach(section => {
             section.classList.remove('active');
         });
@@ -32,8 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         if (targetNav) targetNav.classList.add('active');
-        
-        state.activeTab = targetId;
         saveAllData();
     }
 
@@ -52,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function calculateRegression(X, Y) {
         let n = X.length;
-        if (n === 0) return null;
+        if (n < 2) return null;
         
         let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
         let data = [];
@@ -75,9 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return { a, b, data, sumDXDY, sumDX2, meanX, meanY };
     }
 
-    function renderRegressionTable(tableId, regData) {
+    function renderTable(tableId, regData) {
         const table = document.getElementById(tableId);
-        if (!table) return;
+        if(!table) return;
         const tbody = table.querySelector('tbody');
         const tfoot = table.querySelector('tfoot');
         
@@ -94,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (tfoot) {
             tfoot.innerHTML = `
-                <tr style="font-weight: bold; background: rgba(255,255,255,0.05);">
+                <tr style="font-weight: bold; background: #f1f5f9;">
                     <td colspan="2">PROMEDIOS: X=${formatNumber(regData.meanX)} Y=${formatNumber(regData.meanY)}</td>
                     <td colspan="2" style="text-align: right;">SUMATORIAS:</td>
                     <td>${formatNumber(regData.sumDXDY)}</td>
@@ -123,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data: {
                 datasets: [{
                     data: itData,
-                    borderColor: '#ff3e3e',
+                    borderColor: '#1e293b',
                     borderWidth: 4,
                     fill: false,
                     pointRadius: 0,
@@ -133,20 +123,21 @@ document.addEventListener('DOMContentLoaded', () => {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: { padding: { top: 20, right: 60, bottom: 40, left: 60 } },
                 plugins: {
                     legend: { display: false },
                     annotation: {
                         annotations: {
-                            lineX: { type: 'line', xMin: xOpt, xMax: xOpt, yMin: 0, yMax: utMax, borderColor: 'rgba(0, 242, 255, 0.5)', borderWidth: 2, borderDash: [5, 5] },
-                            lineY: { type: 'line', yMin: utMax, yMax: utMax, xMin: 0, xMax: xOpt, borderColor: 'rgba(0, 242, 255, 0.5)', borderWidth: 2, borderDash: [5, 5] },
-                            lblX: { type: 'label', xValue: xOpt, yValue: 0, content: formatNumber(xOpt, 1), position: 'bottom', color: '#fff', font: { size: 12, weight: 'bold' } },
-                            lblY: { type: 'label', xValue: 0, yValue: utMax, content: formatNumber(utMax, 0), position: 'left', color: '#fff', font: { size: 12, weight: 'bold' } }
+                            lineX: { type: 'line', xMin: xOpt, xMax: xOpt, yMin: 0, yMax: utMax, borderColor: 'rgba(220, 38, 38, 0.7)', borderWidth: 1.5 },
+                            lineY: { type: 'line', yMin: utMax, yMax: utMax, xMin: 0, xMax: xOpt, borderColor: 'rgba(220, 38, 38, 0.7)', borderWidth: 1.5 },
+                            lblX: { type: 'label', xValue: xOpt, yValue: 0, content: formatNumber(xOpt, 1), position: 'bottom', yAdjust: 20, font: { size: 14, weight: 'bold' }, color: '#000' },
+                            lblY: { type: 'label', xValue: 0, yValue: utMax, content: formatNumber(utMax, 0), position: 'left', xAdjust: -25, font: { size: 14, weight: 'bold' }, color: '#000' }
                         }
                     }
                 },
                 scales: {
-                    x: { type: 'linear', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888' } },
-                    y: { type: 'linear', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888' } }
+                    x: { type: 'linear', display: true, grid: { display: false }, ticks: { display: false }, border: { color: '#000', width: 3 }, min: -xOpt * 0.1, max: maxX },
+                    y: { type: 'linear', display: true, grid: { display: false }, ticks: { display: false }, border: { color: '#000', width: 3 }, min: -utMax * 0.1, max: utMax * 1.2 }
                 }
             }
         });
@@ -158,28 +149,46 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!canvas) return;
         if (imperfectaChart) imperfectaChart.destroy();
         
-        let demData = [{x: 0, y: c}, {x: xComp*1.5, y: m*(xComp*1.5) + c}];
-        let imData = [{x: 0, y: c}, {x: xComp*1.5, y: 2*m*(xComp*1.5) + c}];
-        let cmData = [{x: 0, y: cv}, {x: xComp*1.5, y: cv}];
+        let demData = [{x: 0, y: c}, {x: xComp*1.4, y: m*(xComp*1.4) + c}];
+        let imData = [{x: 0, y: c}, {x: xComp*1.4, y: 2*m*(xComp*1.4) + c}];
+        let cmData = [{x: 0, y: cv}, {x: xComp*1.4, y: cv}];
+
+        const socialCostLines = {};
+        const numLines = 15;
+        for(let i=0; i<=numLines; i++) {
+            const x = xMono + (xComp - xMono) * (i / numLines);
+            socialCostLines[`line${i}`] = {
+                type: 'line', xMin: x, xMax: x, yMin: cv, yMax: m*x + c, borderColor: 'rgba(0,0,0,0.2)', borderWidth: 1
+            };
+        }
 
         imperfectaChart = new Chart(canvas.getContext('2d'), {
             type: 'scatter',
             data: {
                 datasets: [
-                    { label: 'P', data: demData, showLine: true, borderColor: '#00f2ff', borderWidth: 3, pointRadius: 0 },
-                    { label: 'IM', data: imData, showLine: true, borderColor: '#ff007a', borderWidth: 3, pointRadius: 0 },
-                    { label: 'CM', data: cmData, showLine: true, borderColor: '#ff3e3e', borderWidth: 3, pointRadius: 0 }
+                    { label: 'P', data: demData, showLine: true, borderColor: '#1f4e79', borderWidth: 3, pointRadius: 0 },
+                    { label: 'IM', data: imData, showLine: true, borderColor: '#70ad47', borderWidth: 3, pointRadius: 0 },
+                    { label: 'CM', data: cmData, showLine: true, borderColor: '#c00000', borderWidth: 3, pointRadius: 0 }
                 ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, maintainAspectRatio: false,
+                layout: { padding: { top: 20, right: 60, bottom: 40, left: 60 } },
                 plugins: {
-                    legend: { display: true, labels: { color: '#fff' } }
+                    legend: { display: true },
+                    annotation: {
+                        annotations: {
+                            ...socialCostLines,
+                            lblP: { type: 'label', xValue: 0, yValue: c, content: formatNumber(c, 2), position: 'left', xAdjust: -25, font: { size: 12, weight: 'bold' }, color: '#000' },
+                            lblCM: { type: 'label', xValue: 0, yValue: cv, content: formatNumber(cv, 1), position: 'left', xAdjust: -25, font: { size: 12, weight: 'bold' }, color: '#000' },
+                            lblX1: { type: 'label', xValue: xMono, yValue: 0, content: formatNumber(xMono, 1), position: 'bottom', yAdjust: 20, font: { size: 12, weight: 'bold' }, color: '#000' },
+                            lblX2: { type: 'label', xValue: xComp, yValue: 0, content: formatNumber(xComp, 1), position: 'bottom', yAdjust: 20, font: { size: 12, weight: 'bold' }, color: '#000' }
+                        }
+                    }
                 },
-                scales: {
-                    x: { type: 'linear', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888' } },
-                    y: { type: 'linear', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888' } }
+                scales: { 
+                    x: { type: 'linear', display: true, grid: { display: false }, ticks: { display: false }, border: { color: '#000', width: 3 }, min: -xComp * 0.1, max: xComp * 1.5 }, 
+                    y: { type: 'linear', display: true, grid: { display: false }, ticks: { display: false }, border: { color: '#000', width: 3 }, min: -c * 0.1, max: c * 1.2 } 
                 }
             }
         });
@@ -207,30 +216,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const Qe = regD.b * Pe + regD.a;
             const m = 1/regD.b; 
             const c = -regD.a/regD.b;
-            const Cv = cvType === 'percent' ? (P[0] || 1) * (cvVal/100) : cvVal;
+            const Cv = cvType === 'percent' ? P[0] * (cvVal/100) : cvVal;
             const xOpt = (Cv - c) / (2 * m);
             const itOpt = m*xOpt*xOpt + c*xOpt;
             const ctOpt = Cv*xOpt + cf;
             const ut = itOpt - ctOpt;
 
             document.getElementById('resolution-container').style.display = 'block';
-            renderRegressionTable('table-demanda', regD);
-            renderRegressionTable('table-oferta', regS);
+            renderTable('table-demanda', regD);
+            renderTable('table-oferta', regS);
 
             document.getElementById('math-demanda').innerHTML = `
-                <p>\\( b = \\frac{\\sum DXDY}{\\sum DX^2} = \\frac{${formatNumber(regD.sumDXDY)}}{${formatNumber(regD.sumDX2)}} = ${formatNumber(regD.b)} \\)</p>
-                <p>\\( a = \\bar{Y} - b\\bar{X} = ${formatNumber(regD.meanY)} - (${formatNumber(regD.b)})(${formatNumber(regD.meanX)}) = ${formatNumber(regD.a)} \\)</p>
-                <p class="text-gradient" style="font-size:1.4rem; font-weight:bold;">\\( Q_d = ${formatNumber(regD.b)}P + ${formatNumber(regD.a)} \\)</p>
+                <p>\\( b = \\frac{\\sum DXDY}{\\sum DX^2} = ${formatNumber(regD.b)} \\)</p>
+                <p>\\( a = \\bar{Y} - b\\bar{X} = ${formatNumber(regD.a)} \\)</p>
+                <p style="font-size:1.4rem; color:var(--primary); font-weight:bold;">\\( Q_d = ${formatNumber(regD.b)}P + ${formatNumber(regD.a)} \\)</p>
             `;
 
             document.getElementById('math-equilibrio').innerHTML = `
-                <p>\\( Q_d = Q_s \\implies ${formatNumber(regD.b)}P + ${formatNumber(regD.a)} = ${formatNumber(regS.b)}P + ${formatNumber(regS.a)} \\)</p>
-                <p style="font-size:1.5rem; color:var(--secondary); font-weight:bold;">\\( P_e = ${formatNumber(Pe, 2)} \\) Bs. | \\( Q_e = ${formatNumber(Qe, 0)} \\) Unidades</p>
+                <p>\\( Q_d = Q_s \\implies P_e = ${formatNumber(Pe, 2)} \\) Bs. | \\( Q_e = ${formatNumber(Qe, 0)} \\) Unid.</p>
             `;
 
             document.getElementById('math-utilidad').innerHTML = `
-                <p>Determinando el nivel óptimo de producción (IM = CM):</p>
-                <p style="font-size:1.6rem; color:var(--primary); font-weight:bold;">\\( UT_{óptima} = ${formatNumber(ut, 2)} \\) Bs. en \\( x = ${formatNumber(xOpt, 1)} \\) unid.</p>
+                <p style="font-size:1.4rem; color:var(--accent); font-weight:bold;">\\( UT_{óptima} = ${formatNumber(ut, 2)} \\) Bs. en \\( x = ${formatNumber(xOpt, 2)} \\) Unidades.</p>
             `;
 
             drawUtilityChart(xOpt, itOpt, m, c, Cv, cf);
@@ -253,27 +260,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const m = 1/regD.b; 
             const c = -regD.a/regD.b;
-            const cv = cvType === 'percent' ? (P[0] || 1) * (cvVal/100) : cvVal;
+            const cv = cvType === 'percent' ? P[0] * (cvVal/100) : cvVal;
             
             const xMono = (cv - c) / (2 * m);
-            const pMono = m * xMono + c;
             const xComp = (cv - c) / m;
-            
             const k = c - cv;
             const integral = (x) => (m/2)*x*x + k*x;
             const cs = Math.abs(integral(xComp) - integral(xMono));
 
             document.getElementById('resolution-container-imp').style.display = 'block';
-            renderRegressionTable('table-demanda-imp', regD);
+            renderTable('table-demanda-imp', regD);
 
             document.getElementById('math-reg-imp').innerHTML = `
-                <p>\\( Q_d = ${formatNumber(regD.b)}P + ${formatNumber(regD.a, 1)} \\)</p>
-                <p>\\( P = ${formatNumber(m, 5)}x + ${formatNumber(c, 3)} \\)</p>
+                <p>\\( P = ${formatNumber(m, 5)}x + ${formatNumber(c, 2)} \\)</p>
             `;
 
             document.getElementById('math-9-imp').innerHTML = `
-                <p>Costo Social (Pérdida de Bienestar):</p>
-                <p style="font-size:1.8rem; color:var(--primary); font-weight:bold;">\\( CS = ${formatNumber(cs, 2)} \\) Bs.</p>
+                <p style="font-size:1.5rem; color:var(--secondary); font-weight:bold;">\\( CS = ${formatNumber(cs, 2)} \\) Bs.</p>
             `;
 
             drawImperfectaChart('chart-imperfecta-custom', m, c, cv, xMono, xComp);
@@ -284,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PERSISTENCE ---
     function saveAllData() {
         const data = {
-            activeTab: state.activeTab,
             perfecta: Array.from(document.querySelectorAll('#table-body tr')).map(tr => ({
                 p: tr.querySelector('.t-price')?.value,
                 d: tr.querySelector('.t-dem')?.value,
@@ -295,84 +297,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 d: tr.querySelector('.t-dem-imp')?.value
             })),
             cf: document.getElementById('inp-cf')?.value,
-            cv: document.getElementById('inp-porcentaje-cv')?.value,
-            pe: {
-                cf: document.getElementById('pe-cf')?.value,
-                cv: document.getElementById('pe-cv')?.value,
-                p: document.getElementById('pe-p')?.value,
-                q1: document.getElementById('pe-q1')?.value,
-                q2: document.getElementById('pe-q2')?.value
-            }
+            cv: document.getElementById('inp-porcentaje-cv')?.value
         };
-        localStorage.setItem('saice_antigravity_state', JSON.stringify(data));
+        localStorage.setItem('saice_state_v8', JSON.stringify(data));
     }
 
     function loadAllData() {
-        const saved = localStorage.getItem('saice_antigravity_state');
+        const saved = localStorage.getItem('saice_state_v8');
         if (!saved) return;
-        
         try {
             const data = JSON.parse(saved);
-            if (data.activeTab) switchTab(data.activeTab);
-            
-            if (data.perfecta && data.perfecta.length > 0) {
+            if (data.perfecta) {
                 const tbody = document.getElementById('table-body');
-                tbody.innerHTML = '';
-                data.perfecta.forEach(row => {
-                    if (!row.p) return;
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td><input type="number" class="t-price" value="${row.p}" step="0.1"></td><td><input type="number" class="t-dem" value="${row.d}"></td><td><input type="number" class="t-sup" value="${row.s}"></td><td class="no-print"><button class="btn-icon delete-row" style="color:var(--primary);"><i class="fa-solid fa-trash"></i></button></td>`;
-                    tbody.appendChild(tr);
-                });
+                tbody.innerHTML = data.perfecta.map(row => `
+                    <tr>
+                        <td><input type="number" class="t-price" value="${row.p}" step="0.1"></td>
+                        <td><input type="number" class="t-dem" value="${row.d}"></td>
+                        <td><input type="number" class="t-sup" value="${row.s}"></td>
+                        <td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `).join('');
             }
-
             if (data.cf) document.getElementById('inp-cf').value = data.cf;
             if (data.cv) document.getElementById('inp-porcentaje-cv').value = data.cv;
-            
-            if (data.pe) {
-                if (data.pe.cf) document.getElementById('pe-cf').value = data.pe.cf;
-                if (data.pe.cv) document.getElementById('pe-cv').value = data.pe.cv;
-                if (data.pe.p) document.getElementById('pe-p').value = data.pe.p;
-                if (data.pe.q1) document.getElementById('pe-q1').value = data.pe.q1;
-                if (data.pe.q2) document.getElementById('pe-q2').value = data.pe.q2;
-            }
-
             attachDeleteEvents();
-        } catch (e) {
-            console.error("Error loading state", e);
-        }
+        } catch (e) { console.error(e); }
     }
 
     function attachDeleteEvents() {
-        document.querySelectorAll('.delete-row, .delete-row-imp, .delete-row-elas').forEach(btn => {
+        document.querySelectorAll('.delete-row, .delete-row-imp').forEach(btn => {
             btn.onclick = function() {
-                const rowCount = this.closest('tbody').querySelectorAll('tr').length;
-                if (rowCount > 2) {
+                const tbody = this.closest('tbody');
+                if (tbody.querySelectorAll('tr').length > 2) {
                     this.closest('tr').remove();
                     saveAllData();
-                } else {
-                    alert("Se requieren al menos 2 filas de datos.");
                 }
             };
         });
     }
 
-    // Add row buttons
     const addRowBtn = document.getElementById('add-row');
     if (addRowBtn) {
         addRowBtn.onclick = () => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><input type="number" class="t-price" value="0" step="0.1"></td><td><input type="number" class="t-dem" value="0"></td><td><input type="number" class="t-sup" value="0"></td><td class="no-print"><button class="btn-icon delete-row" style="color:var(--primary);"><i class="fa-solid fa-trash"></i></button></td>`;
+            tr.innerHTML = `<td><input type="number" class="t-price" value="0" step="0.1"></td><td><input type="number" class="t-dem" value="0"></td><td><input type="number" class="t-sup" value="0"></td><td class="no-print"><button class="btn-icon delete-row" style="color:red;"><i class="fa-solid fa-trash"></i></button></td>`;
             document.getElementById('table-body').appendChild(tr);
             attachDeleteEvents();
-            saveAllData();
         };
     }
 
-    // Auto-save
     document.addEventListener('input', saveAllData);
-    
-    // Initial load
     loadAllData();
     attachDeleteEvents();
 });
